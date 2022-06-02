@@ -31,6 +31,7 @@ jobs:
             WITH_V: true
             INITIAL_VERSION: 0.1.0
             DEFAULT_BUMP: NONE
+            PRERELEASE_SUFFIX: b
    
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
