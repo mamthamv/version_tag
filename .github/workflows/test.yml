@@ -30,7 +30,7 @@ jobs:
         with:
           draft: false
           prerelease: false
-          release_name: "Tags"
+          release_name: "Tags-mmv"
 
         env:
           GITHUB_TOKEN: ${{ github.token }}
