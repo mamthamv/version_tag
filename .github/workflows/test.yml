@@ -16,7 +16,7 @@ jobs:
           export FINAL_VERSION="$(echo $VERSION | cut -d' ' -f1)" && echo $FINAL_VERSION
           export GIT_URL="$(echo $VERSION | cut -d' ' -f2)" && echo $GIT_URL
           echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-          echo "::set-output name=FINAL_VERSION::$FINAL_VERSION"
+          echo "::set-output name=FINAL_VERSION::v$FINAL_VERSION"
           echo "::set-output name=GIT_URL::$GIT_URL"
           
       - name: tag_main
