@@ -24,6 +24,12 @@ jobs:
           git tag # Show the tagged commits
           git remote set-url origin ${GIT_URL}
           git push origin --tags # Push all tags to GitHub.
-          git release ${FINAL_VERSION} 
+          git release ${FINAL_VERSION}
+          curl --data '{"tag_name": "v$FINAL_VERSION",
+                "target_commitish": "master",
+                "name": "v$FINAL_VERSION",
+                "body": "Release of version $FINAL_VERSION",
+                "draft": false,
+                "prerelease": false}' https://api.github.com/repos/$OWNER/$REPOSITORY/releases
 #git push ${GIT_URL} ${CI_BUILD_REF_NAME} --tags
       
