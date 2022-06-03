@@ -16,8 +16,8 @@ jobs:
         id: tag_version
         run: |
           export FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') && echo $FINAL_VERSION
-          export GIT_URL=echo $FINAL_VERSION |cut -d' ' -f2
-          echo GIT_URL = $GIT_URL
+          export GIT_URL=$FINAL_VERSION |cut -d' ' -f2
+          echo GIT_URL = echo $FINAL_VERSION |cut -d' ' -f2
           git tag -a ${FINAL_VERSION} -m "Creating final release tag"
           git tag # Show the tagged commits
           git remote set-url origin ${GIT_URL}
