@@ -20,7 +20,7 @@ jobs:
           echo "::set-output name=GIT_URL::$GIT_URL"
           
       - name: tag_main
-        if: ${{ steps.tag_version.outputs.branch }} == 'main'
+        if: ${{ steps.tag_version.outputs.branch }} == 'develop'
         id: create_tag_main
         run: |
           echo ${{ steps.tag_version.outputs.branch }}
@@ -43,25 +43,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           
-      - name: tag_develop
-        if: ${{ steps.tag_version.outputs.branch }} == 'develop'
-        id: create_tag_develop
-        run: |
-          git config --global user.email "mamthavathar2000@gmail.com"
-          git config --global user.name "mamthamv"
-          git tag -a ${{ steps.tag_version.outputs.FINAL_VERSION }} -m "Creating final release tags"
-          git tag # Show the tagged commits
-          git remote set-url origin ${{ steps.tag_version.outputs.GIT_URL }}
-          git push origin --tags # Push all tags to GitHub.
-          
-      - name: release_develop
-        if: ${{ steps.tag_version.outputs.branch }} == 'develop'
-        uses: actions/create-release@v1
-        id: create_release_develop
-        with:
-          draft: false
-          prerelease: false
-          release_name: ${{ steps.tag_version.outputs.FINAL_VERSION }}
-          tag_name: ${{ steps.tag_version.outputs.FINAL_VERSION }}
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+      
