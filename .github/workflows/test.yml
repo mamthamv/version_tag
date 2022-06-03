@@ -26,5 +26,5 @@ jobs:
           export FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') && echo $FINAL_VERSION 
       - name: Create tag
         run: |
-          echo ${{ steps.tag_version.outputs.$FINAL_VERSION }}
+          echo ${{ steps.tag_version.outputs}}
       
