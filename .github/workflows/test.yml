@@ -17,18 +17,21 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
+    
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Build and tag 
+        id: tag_version
+        run: |
+          export FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') && echo $FINAL_VERSION 
       - uses: actions/checkout@v3
       - name: Create tag
         uses: actions/github-script@v5
         with:
           script: |
             github.rest.git.createRef({
-              owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/checktag',
+              ref: 'refs/tags/${{ steps.tag_version.outputs.new_tag }}',
               sha: context.sha
             })
