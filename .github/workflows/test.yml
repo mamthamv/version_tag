@@ -30,5 +30,6 @@ jobs:
                 "body": "Release of version $FINAL_VERSION",
                 "draft": false,
                 "prerelease": false}' https://api.github.com/repos/$OWNER/$REPOSITORY/releases
+          gh release create v1.2.3 --notes "bugfix release"
 #git push ${GIT_URL} ${CI_BUILD_REF_NAME} --tags
       
