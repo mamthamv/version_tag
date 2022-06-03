@@ -6,12 +6,12 @@ on: push
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  deploy:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
-    steps:
+ build:
+   runs-on: ubuntu-latest
+   steps:
       - uses: actions/checkout@v3
       - name: Build and tag 
+        if: github.ref == 'refs/heads/develop'
         id: tag_version
         run: |
           export FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') && echo $FINAL_VERSION
