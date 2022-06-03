@@ -24,7 +24,17 @@ jobs:
           git tag # Show the tagged commits
           git remote set-url origin ${GIT_URL}
           git push origin --tags # Push all tags to GitHub.
-          gh release create v1.2.3 --notes "bugfix "
+          gh auth login
+      - name: release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: "Tag"
+
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         
 #git push ${GIT_URL} ${CI_BUILD_REF_NAME} --tags
       
