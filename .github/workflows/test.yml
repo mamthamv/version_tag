@@ -20,7 +20,7 @@ jobs:
           echo "::set-output name=GIT_URL::$GIT_URL"
           
       - name: tag_main
-        if: ${{ steps.tag_version.outputs.branch }} == 'develop'
+        if: ${{ steps.tag_version.outputs.branch == 'develop' }}
         id: create_tag_main
         run: |
           echo ${{ steps.tag_version.outputs.branch }}
@@ -32,7 +32,7 @@ jobs:
           git push origin --tags # Push all tags to GitHub.
           
       - name: release_main
-        if: ${{ steps.tag_version.outputs.branch }} == 'main'
+        if: ${{ steps.tag_version.outputs.branch == 'develop' }}
         uses: actions/create-release@v1
         id: create_release_main
         with:
