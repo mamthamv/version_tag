@@ -5,13 +5,6 @@ on: push
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
- test:
-   runs-on: ubuntu-latest
-   steps:
-     - name: Extract branch name
-       shell: bash
-       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-       id: extract_branch
  build:
    runs-on: ubuntu-latest
    if: ${{ test.steps.extract_branch.outputs.branch }} == 'refs/heads/master'
@@ -25,48 +18,26 @@ jobs:
           export GIT_URL="$(echo $VERSION | cut -d' ' -f2)" && echo $GIT_URL
           git config --global user.email "mamthavathar2000@gmail.com"
           git config --global user.name "mamthamv"
+          echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      
+      - name: tag_main
+        if: ${{ steps.tag_version.outputs.branch }} == 'refs/heads/main'
+        id: create_tag_main
+        run: |
           git tag -a ${FINAL_VERSION} -m "Creating final release tags"
           git tag # Show the tagged commits
           git remote set-url origin ${GIT_URL}
           git push origin --tags # Push all tags to GitHub.
           echo "::set-output name=FINAL_VERSION::$FINAL_VERSION"
-      - name: release
+      - name: release_main
+        if: ${{ steps.tag_version.outputs.branch }} == 'refs/heads/main'
         uses: actions/create-release@v1
         id: create_release
         with:
           draft: false
           prerelease: false
-          release_name: ${{ steps.tag_version.outputs.FINAL_VERSION }}
-          tag_name: ${{ steps.tag_version.outputs.FINAL_VERSION }}
+          release_name: ${{ steps.create_tag_main.outputs.FINAL_VERSION }}
+          tag_name: ${{ steps.create_tag_main.outputs.FINAL_VERSION }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
- deploy:  
-    runs-on: ubuntu-latest
-    if: ${{ test.steps.extract_branch.outputs.branch }} == 'refs/heads/develop'
-    steps:
-      - uses: actions/checkout@v3
-      - name: Build and tag 
-        id: tag_version
-        run: |
-          export VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') 
-          export FINAL_VERSION="$(echo $VERSION | cut -d' ' -f1)" && echo $FINAL_VERSION
-          export GIT_URL="$(echo $VERSION | cut -d' ' -f2)" && echo $GIT_URL
-          git config --global user.email "mamthavathar2000@gmail.com"
-          git config --global user.name "mamthamv"
-          git tag -a ${FINAL_VERSION} -m "Creating final release tags"
-          git tag # Show the tagged commits
-          git remote set-url origin ${GIT_URL}
-          git push origin --tags # Push all tags to GitHub.
-          echo b"::set-output name=FINAL_VERSION::$FINAL_VERSION"
-      - name: release
-        uses: actions/create-release@v1
-        id: create_release
-        with:
-          draft: false
-          prerelease: false
-          release_name: ${{ steps.tag_version.outputs.FINAL_VERSION }}
-          tag_name: ${{ steps.tag_version.outputs.FINAL_VERSION }}
-        env:
-          GITHUB_TOKEN: ${{ github.token }}     
-#git push ${GIT_URL} ${CI_BUILD_REF_NAME} --tags
-      
+ 
