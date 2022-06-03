@@ -24,5 +24,6 @@ jobs:
           git tag # Show the tagged commits
           git remote set-url origin ${GIT_URL}
           git push origin --tags # Push all tags to GitHub.
+          git release ${FINAL_VERSION} 
 #git push ${GIT_URL} ${CI_BUILD_REF_NAME} --tags
       
