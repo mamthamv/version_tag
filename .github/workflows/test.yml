@@ -18,6 +18,8 @@ jobs:
           export VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') 
           export FINAL_VERSION="$(echo $VERSION | cut -d' ' -f1)" && echo $FINAL_VERSION
           export URL="$(echo $VERSION | cut -d' ' -f2)" && echo $URL
+          git config --global user.email "mamthavathar2000@gmail.com"
+          git config --global user.name "mamthamv"
           git tag -a ${FINAL_VERSION} -m "Creating final release tag"
           git tag # Show the tagged commits
           git remote set-url origin ${GIT_URL}
