@@ -31,6 +31,6 @@ jobs:
           script: |
             github.rest.git.createRef({
               repo: context.repo.repo,
-              ref: ${{ steps.tag_version.outputs.$FINAL_VERSION }}',
+              ref: ${{ steps.tag_version.outputs.FINAL_VERSION }}',
               sha: context.sha
             })
