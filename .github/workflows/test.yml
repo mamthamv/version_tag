@@ -23,12 +23,12 @@ jobs:
         if: ${{ steps.tag_version.outputs.branch }} == 'refs/heads/main'
         id: create_tag_main
         run: |
+          $FINAL_VERSION= ${{ steps.tag_version.outputs.FINAL_VERSION }}
           git tag -a ${{ steps.tag_version.outputs.FINAL_VERSION }} -m "Creating final release tags"
           git tag # Show the tagged commits
           git remote set-url origin ${GIT_URL}
           git push origin --tags # Push all tags to GitHub.
-          echo ${{ steps.tag_version.outputs.FINAL_VERSION }}
-          echo ${{ steps.tag_version.outputs.branch }}
+          
       - name: release_main
         if: ${{ steps.tag_version.outputs.branch }} == 'refs/heads/main'
         uses: actions/create-release@v1
