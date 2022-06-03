@@ -17,5 +17,5 @@ except ImportError:
 setup(
     name='tr-awsbackup-infra',
     version='0.0.3',
-    url='https://github.com/tr/nuvola_aws-backup-infra-cdk/'
+    url='https://github.com/mamthamv/version_tag.git'
 )
