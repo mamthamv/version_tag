@@ -29,7 +29,7 @@ jobs:
                 "name": "v$FINAL_VERSION",
                 "body": "Release of version $FINAL_VERSION",
                 "draft": false,
-                "prerelease": false}' https://api.github.com/repos/$OWNER/$REPOSITORY/releases
+                "prerelease": false}' https://github.com/mamthamv/version_tag/releases
           gh auth login
           gh release create v1.2.3 --notes "bugfix release"
 #git push ${GIT_URL} ${CI_BUILD_REF_NAME} --tags
