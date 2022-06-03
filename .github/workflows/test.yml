@@ -24,6 +24,7 @@ jobs:
           git tag # Show the tagged commits
           git remote set-url origin ${GIT_URL}
           git push origin --tags # Push all tags to GitHub.
+          echo "::set-output name=FINAL_VERSION::$FINAL_VERSION"
       - name: release
         uses: actions/create-release@v1
         id: create_release
