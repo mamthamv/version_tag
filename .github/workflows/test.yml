@@ -20,7 +20,7 @@ jobs:
           echo "::set-output name=GIT_URL::$GIT_URL"
           
       - name: tag_main
-        if: ${{ steps.tag_version.outputs.branch }} == 'refs/heads/main'
+        if: ${{ steps.tag_version.outputs.branch }} == 'main'
         id: create_tag_main
         run: |
           git config --global user.email "mamthavathar2000@gmail.com"
@@ -31,7 +31,7 @@ jobs:
           git push origin --tags # Push all tags to GitHub.
           
       - name: release_main
-        if: ${{ steps.tag_version.outputs.branch }} == 'refs/heads/main'
+        if: ${{ steps.tag_version.outputs.branch }} == 'main'
         uses: actions/create-release@v1
         id: create_release_main
         with:
@@ -43,7 +43,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           
       - name: tag_develop
-        if: ${{ steps.tag_version.outputs.branch }} == 'refs/heads/develop'
+        if: ${{ steps.tag_version.outputs.branch }} == 'develop'
         id: create_tag_develop
         run: |
           git config --global user.email "mamthavathar2000@gmail.com"
@@ -54,7 +54,7 @@ jobs:
           git push origin --tags # Push all tags to GitHub.
           
       - name: release_develop
-        if: ${{ steps.tag_version.outputs.branch }} == 'refs/heads/develop'
+        if: ${{ steps.tag_version.outputs.branch }} == 'develop'
         uses: actions/create-release@v1
         id: create_release_develop
         with:
