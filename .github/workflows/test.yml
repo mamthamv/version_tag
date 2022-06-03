@@ -49,7 +49,7 @@ jobs:
         run: |
           git config --global user.email "mamthavathar2000@gmail.com"
           git config --global user.name "mamthamv"
-          git tag -a ${{ steps.tag_version.outputs.FINAL_VERSION }} -m "Creating final release tags"
+          git tag -a ${{ steps.tag_version.outputs.FINAL_VERSION }}b -m "Creating final release tags"
           git tag # Show the tagged commits
           git remote set-url origin ${{ steps.tag_version.outputs.GIT_URL }}
           git push origin --tags # Push all tags to GitHub.
@@ -61,8 +61,8 @@ jobs:
         with:
           draft: false
           prerelease: false
-          release_name: ${{ steps.tag_version.outputs.FINAL_VERSION }}
-          tag_name: ${{ steps.tag_version.outputs.FINAL_VERSION }}
+          release_name: ${{ steps.tag_version.outputs.FINAL_VERSION }}b
+          tag_name: ${{ steps.tag_version.outputs.FINAL_VERSION }}b
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
