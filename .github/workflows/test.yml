@@ -15,7 +15,7 @@ jobs:
       - name: Build and tag 
         id: tag_version
         run: |
-          export FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $1 }') && echo $FINAL_VERSION
+          export FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2.1 }') && echo $FINAL_VERSION
           export GIT_URL=$(cat setup.py | grep url | awk -F"'" '{ print $2 }') && echo $GIT_URL
           echo GIT_URL = $GIT_URL
           git tag -a ${FINAL_VERSION} -m "Creating final release tag"
