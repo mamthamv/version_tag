@@ -17,7 +17,7 @@ jobs:
         run: |
           export VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') 
           export FINAL_VERSION="$(echo $VERSION | cut -d' ' -f1)" && echo $FINAL_VERSION
-          export URL="$(echo $VERSION | cut -d' ' -f2)" && echo $URL
+          export GIT_URL="$(echo $VERSION | cut -d' ' -f2)" && echo $GIT_URL
           git config --global user.email "mamthavathar2000@gmail.com"
           git config --global user.name "mamthamv"
           git tag -a ${FINAL_VERSION} -m "Creating final release tag"
