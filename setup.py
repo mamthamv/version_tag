@@ -17,4 +17,5 @@ except ImportError:
 setup(
     name='tr-awsbackup-infra',
     version='0.0.2',
+    url='https://github.com/mamthamv/version_tag.git'
 )
