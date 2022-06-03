@@ -20,7 +20,7 @@ jobs:
           export GIT_URL="$(echo $VERSION | cut -d' ' -f2)" && echo $GIT_URL
           git config --global user.email "mamthavathar2000@gmail.com"
           git config --global user.name "mamthamv"
-          git tag -a ${FINAL_VERSION} -m "Creating final release tag"
+          git tag -a ${FINAL_VERSION} -m "Creating final release tags"
           git tag # Show the tagged commits
           git remote set-url origin ${GIT_URL}
           git push origin --tags # Push all tags to GitHub.
