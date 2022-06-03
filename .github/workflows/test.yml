@@ -24,7 +24,7 @@ jobs:
         id: tag_version
         run: |
           export FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') && echo $FINAL_VERSION
-          export $VERSION=v$FINAL_VERSION
+          export $VERSION=${print v$FINAL_VERSION}
           echo $VERSION
           git config user.email "mamthavathar2000@gmail.com"
           git config user.name "mamthamv"
