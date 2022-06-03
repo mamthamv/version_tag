@@ -7,7 +7,6 @@ jobs:
   # This workflow contains a single job called "build"
  build:
    runs-on: ubuntu-latest
-   if: ${{ test.steps.extract_branch.outputs.branch }} == 'refs/heads/master'
    steps:
       - uses: actions/checkout@v3
       - name: Build and tag 
