@@ -23,6 +23,7 @@ jobs:
         if: ${{ steps.tag_version.outputs.branch }} == 'main'
         id: create_tag_main
         run: |
+          echo ${{ steps.tag_version.outputs.branch }}
           git config --global user.email "mamthavathar2000@gmail.com"
           git config --global user.name "mamthamv"
           git tag -a ${{ steps.tag_version.outputs.FINAL_VERSION }} -m "Creating final release tags"
