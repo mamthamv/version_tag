@@ -16,18 +16,16 @@ jobs:
    environment:
       git config --global user.email "mamthavathar2000@gmail.com"
       git config --global user.name "mamthamv"
+      git config --get remote.origin.url
+      export VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') 
+      export BRANCH=$(echo ${GITHUB_REF#refs/heads/})
    steps:
       - uses: actions/checkout@v3
       - name: Build and tag 
         id: tag_version
         run: |
-          export VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') 
-          export FINAL_VERSION="$(echo $VERSION | cut -d' ' -f1)" && echo $FINAL_VERSION
-          export GIT_URL="$(echo $VERSION | cut -d' ' -f2)" && echo $GIT_URL
-          echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-          echo "::set-output name=FINAL_VERSION::v$FINAL_VERSION"
-          echo "::set-output name=GIT_URL::$GIT_URL"
-          git tag -a ${{ steps.tag_version.outputs.FINAL_VERSION }} -m "Creating final release tags"
+          echo $BRANCH && echo $VERSION 
+          git tag -a $VERSION -m "Creating final release tags"
           git tag # Show the tagged commits
           git remote set-url origin ${{ steps.tag_version.outputs.GIT_URL }}
           git push origin --tags # Push all tags to GitHub
