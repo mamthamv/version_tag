@@ -7,7 +7,7 @@ on:
     branches:
      - main
      - develop
-     
+    
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -16,17 +16,15 @@ jobs:
    steps:
       - uses: actions/checkout@v3
       - name: Build and tag 
-        env:
-          USERNAME: git config --global user.email "mamthavathar2000@gmail.com"
-          PASSWORD: git config --global user.name "mamthamv"
-          export URL: git config --get remote.origin.url
-          export VERSION: $(cat setup.py | grep version | awk -F"'" '{ print $2 }') 
-          export BRANCH: $(echo ${GITHUB_REF#refs/heads/})
         id: tag_version
         run: |
-          echo $BRANCH && echo $VERSION 
-          git tag -a $VERSION -m "Creating final release tags"
+          export FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') && echo $FINAL_VERSION 
+          git config --global user.email "mamthavathar2000@gmail.com"
+          git config --global user.name "mamthamv"
+          if: ${{ GITHUB_REF#refs/heads/ == 'main' }}
+          git tag -a $FINAL_VERSION -m "Creating final release tags"
           git tag # Show the tagged commits
           git remote set-url origin ${{ steps.tag_version.outputs.GIT_URL }}
-          git push origin --tags # Push all tags to GitHub
-
+          git push origin --tags # Push all tags to GitHub.
+          
+      
