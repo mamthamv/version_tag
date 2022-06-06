@@ -24,7 +24,7 @@ jobs:
           if: ${{ GITHUB_REF#refs/heads/ == 'main' }}
           git tag -a $FINAL_VERSION -m "Creating final release tags"
           git tag # Show the tagged commits
-          git remote set-url origin ${{ steps.tag_version.outputs.GIT_URL }}
+          git remote set-url origin ${{ git config --get remote.origin.url }}
           git push origin --tags # Push all tags to GitHub.
           
       
