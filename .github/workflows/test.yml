@@ -18,13 +18,56 @@ jobs:
       - name: Build and tag 
         id: tag_version
         run: |
-          export FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') && echo $FINAL_VERSION 
+          export VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') 
+          export FINAL_VERSION="$(echo $VERSION | cut -d' ' -f1)" && echo $FINAL_VERSION
+          export GIT_URL="$(echo $VERSION | cut -d' ' -f2)" && echo $GIT_URL
+          echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+          echo "::set-output name=FINAL_VERSION::v$FINAL_VERSION"
+          echo "::set-output name=GIT_URL::$GIT_URL"
+          
+      - name: tag_main
+        if: ${{ steps.tag_version.outputs.branch == 'main' }}
+        id: create_tag_main
+        run: |
+          echo ${{ steps.tag_version.outputs.branch }}
           git config --global user.email "mamthavathar2000@gmail.com"
           git config --global user.name "mamthamv"
-          if: $(echo ${GITHUB_REF#refs/heads/})== 'main'
-          git tag -a $FINAL_VERSION -m "Creating final release tags"
+          git tag -a ${{ steps.tag_version.outputs.FINAL_VERSION }} -m "Creating final release tags"
           git tag # Show the tagged commits
-          git remote set-url origin $(echo ${git config --get remote.origin.url })
+          git remote set-url origin ${{ steps.tag_version.outputs.GIT_URL }}
           git push origin --tags # Push all tags to GitHub.
           
-      
+      - name: release_main
+        if: ${{ steps.tag_version.outputs.branch == 'main' }}
+        uses: actions/create-release@v1
+        id: create_release_main
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ steps.tag_version.outputs.FINAL_VERSION }}
+          tag_name: ${{ steps.tag_version.outputs.FINAL_VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          
+      - name: tag_develop
+        if: ${{ steps.tag_version.outputs.branch == 'develop' }} 
+        id: create_tag_develop
+        run: |
+          git config --global user.email "mamthavathar2000@gmail.com"
+          git config --global user.name "mamthamv"
+          git tag -a ${{ steps.tag_version.outputs.FINAL_VERSION }}b -m "Creating final release tags"
+          git tag # Show the tagged commits
+          git remote set-url origin ${{ steps.tag_version.outputs.GIT_URL }}
+          git push origin --tags # Push all tags to GitHub.
+          
+      - name: release_develop
+        if: ${{ steps.tag_version.outputs.branch == 'develop' }}
+        uses: actions/create-release@v1
+        id: create_release_develop
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ steps.tag_version.outputs.FINAL_VERSION }}b
+          tag_name: ${{ steps.tag_version.outputs.FINAL_VERSION }}b
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
