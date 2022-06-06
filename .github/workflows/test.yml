@@ -27,8 +27,6 @@ jobs:
           echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
           echo "::set-output name=FINAL_VERSION::v$FINAL_VERSION"
           echo "::set-output name=GIT_URL::$GIT_URL"
-          export GIT_URL_def=$(echo ${GITHUB_SERVER_URL})
-          echo $GIT_URL_def
           git tag -a ${{ steps.tag_version.outputs.FINAL_VERSION }} -m "Creating final release tags"
           git tag # Show the tagged commits
           git remote set-url origin ${{ steps.tag_version.outputs.GIT_URL }}
