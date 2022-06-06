@@ -14,9 +14,9 @@ jobs:
  build:
    runs-on: ubuntu-latest
    environment:
-      git config --global user.email "mamthavathar2000@gmail.com"
-      git config --global user.name "mamthamv"
-      git config --get remote.origin.url
+      export USERNAME=git config --global user.email "mamthavathar2000@gmail.com"
+      export PASSWORD=git config --global user.name "mamthamv"
+      export URL=git config --get remote.origin.url
       export VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') 
       export BRANCH=$(echo ${GITHUB_REF#refs/heads/})
    steps:
