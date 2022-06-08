@@ -20,6 +20,7 @@ jobs:
         run: |
          echo  $(($NUM+1)) >> $NUM
           
-      - run: echo $NUM
+      - run: 
+         echo $NUM
 
  
