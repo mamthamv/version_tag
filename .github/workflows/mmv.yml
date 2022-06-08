@@ -18,6 +18,10 @@ jobs:
       - name: Build and tag 
         id: tag_version
         run: |
-          export FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') && echo $FINAL_VERSION 
+          export FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') && echo $FINAL_VERSION
+      - name: Set env
+        run: echo "GITHUB_SHA_SHORT=$(cat setup.py | grep version | awk -F"'" '{ print $2 }')" >> $GITHUB_ENV
+      - name: Test
+        run: echo $GITHUB_SHA_SHORT
 
 
