@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: run number with offset
         run: |
-         echo  $(($NUM+1)) >> $NUM
+         echo  $GITHUB_REPOSITORY
           
       - run: 
          echo $NUM
