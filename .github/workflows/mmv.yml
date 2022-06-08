@@ -18,8 +18,8 @@ jobs:
       - uses: actions/checkout@v3
       - name: run number with offset
         env:
-          NUM: ${{ github.run_number }}
+          NUM: 0
         run: |
-          echo ::set-env name=GITHUB_RUN_NUMBER_WITH_OFFSET::$(($NUM+200))
+          echo ::set-env name=GITHUB_RUN_NUMBER_WITH_OFFSET::$(($NUM+1))
       - run: echo $GITHUB_RUN_NUMBER_WITH_OFFSET
  
