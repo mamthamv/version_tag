@@ -13,15 +13,11 @@ jobs:
   # This workflow contains a single job called "build"
  build:
    runs-on: ubuntu-latest
-   env:
-     FINAL_VERSION: $(cat setup.py | grep version | awk -F"'" '{ print $2 }') 
+   
    steps:
       - uses: actions/checkout@v3
-      - name: Build and tag 
-        id: tag_version
-        run: |
-          export VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') 
-          export FINAL_VERSION="$(echo $VERSION | cut -d' ' -f1)" && echo $FINAL_VERSION
-      - name: print
-        run: |
-          echo $FINAL_VERSION
+      - name: Set env
+        run: echo "GITHUB_SHA_SHORT=$(cat setup.py | grep version | awk -F"'" '{ print $2 }')" >> $GITHUB_ENV
+      - name: Test
+        run: echo $GITHUB_SHA_SHORT
+
