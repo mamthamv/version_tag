@@ -12,22 +12,12 @@ jobs:
   # This workflow contains a single job called "build"
  build:
    runs-on: ubuntu-latest
-   
+   env:
+      BUILD_NO: 0
    steps:
       - uses: actions/checkout@v3
       - name: Build and tag 
         id: tag_version
-        env:
-          BUILD_NO: 0
         run: 
-          echo "FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }')" >> $GITHUB_ENV
-          echo "BRANCH=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV 
-        
-      - name: Test
-        run: echo $BRANCH 
-      
-      - name: Mvtest
-        run: 
-          echo $FINAL_VERSION 
-          export Bn= $BUILD_NO+1
-          echo $Bn
+          export BUILD_NO= $BUILD_NO+1
+          echo $BUILD_NO
