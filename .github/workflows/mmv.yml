@@ -1,0 +1,25 @@
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches:
+     - main
+     - develop
+    
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+ build:
+   runs-on: ubuntu-latest
+   steps:
+      - uses: actions/checkout@v3
+      - name: Build and tag 
+        id: tag_version
+        run: |
+          export VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') 
+          export FINAL_VERSION="$(echo $VERSION | cut -d' ' -f1)" && echo $FINAL_VERSION
+      - name: print
+        run: |
+          echo $FINAL_VERSION
