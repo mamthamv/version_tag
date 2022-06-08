@@ -20,6 +20,6 @@ jobs:
         env:
           NUM: 0
         run: |
-          echo GITHUB_RUN_NUMBER_WITH_OFFSET::$(($NUM+1))
-      - run: echo $GITHUB_RUN_NUMBER_WITH_OFFSET
+          echo NUM::$(($NUM+1))
+
  
