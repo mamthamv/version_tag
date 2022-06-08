@@ -13,13 +13,13 @@ jobs:
  build:
    runs-on: ubuntu-latest
    env:
-      BUILD_NO: 0
+          NUM: 0
    steps:
       - uses: actions/checkout@v3
       - name: run number with offset
-        env:
-          NUM: 0
         run: |
-          echo NUM=$(($NUM+1))
+          export NUM=$(($NUM+1))
+          
+      - run: echo $NUM
 
  
