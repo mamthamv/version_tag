@@ -12,15 +12,11 @@ jobs:
   # This workflow contains a single job called "build"
  build:
    runs-on: ubuntu-latest
-   env:
-          NUM: 0
+
    steps:
       - uses: actions/checkout@v3
       - name: run number with offset
         run: |
-         echo  $GITHUB_REPOSITORY
-          
-      - run: 
-         echo $NUM
+         echo $GITHUB_SERVER_URL
 
  
