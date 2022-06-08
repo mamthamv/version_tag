@@ -18,7 +18,8 @@ jobs:
       - name: Build and tag 
         id: tag_version
         run: 
-          echo "BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+         echo "FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }')" >> $GITHUB_ENV
+         
         
       - name: Test
         run: echo $FINAL_VERSION 
