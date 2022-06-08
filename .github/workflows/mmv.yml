@@ -13,6 +13,8 @@ jobs:
   # This workflow contains a single job called "build"
  build:
    runs-on: ubuntu-latest
+   env:
+     FINAL_VERSION: $(cat setup.py | grep version | awk -F"'" '{ print $2 }') 
    steps:
       - uses: actions/checkout@v3
       - name: Build and tag 
