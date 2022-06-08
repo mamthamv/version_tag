@@ -19,7 +19,6 @@ jobs:
       - name: Build and tag 
         id: tag_version
         run: |
-          export VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') 
-          export FINAL_VERSION="$(echo $VERSION | cut -d' ' -f1)" && echo $FINAL_VERSION
-          export GIT_URL="$(echo $VERSION | cut -d' ' -f2)" && echo $GIT_URL
+          export VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }'| cut -d' ' -f1) && echo $VERSION
+
 
