@@ -22,6 +22,5 @@ jobs:
           echo "BRANCH=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
         
       - name: Test
-        run: echo $FINAL_VERSION && echo $BRANCH
-
+        run: echo $FINAL_VERSION 
 
