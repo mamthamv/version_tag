@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: run number with offset
         run: |
-          export NUM=$(($NUM+1))
+         echo  $(($NUM+1)) >> $NUM
           
       - run: echo $NUM
 
