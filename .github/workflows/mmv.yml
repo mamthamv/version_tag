@@ -19,3 +19,4 @@ jobs:
       - name: run number with offset
         run: |
           export HELLO=$(($HELLO+1)) && echo $HELLO 
+      - run: echo $HELLO 
