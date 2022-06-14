@@ -5,19 +5,22 @@ on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches:
+     - main
      - develop
-env:
-  HELLO: 0
+    
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
  build:
    runs-on: ubuntu-latest
-
    steps:
       - uses: actions/checkout@v3
-      - name: run number with offset
+      - name: Build and tag 
+        id: tag_version
         run: |
-         $version = 1+$($Env:GITHUB_RUN_NUMBER)
-         echo $version
-         echo "VERSION_NUMBER=$version" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+          export FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') && echo $FINAL_VERSION
+          
+      - name: tag_main
+        id: create_tag_main
+        run: |
+          echo $FINAL_VERSION
