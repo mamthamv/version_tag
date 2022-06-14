@@ -28,20 +28,20 @@ jobs:
         run: |
           git config --global user.email "mamthavathar2000@gmail.com"
           git config --global user.name "mamthamv"
-          if "${{ env.BRANCH}}" == 'main'; then
+          if "${{env.BRANCH}}" == 'main'; then
             git tag -a ${{ env.FINAL_VERSION }} -m "Creating final release tags"
             echo "::set-output name=TAG_NAME::v${{ env.FINAL_VERSION }}"
           else
-            git tag -a ${{ env.FINAL_VERSION }}b.${{ github.run_number}} -m "Creating final release tagss"
-            echo "::set-output name=TAG_NAME::v${{ env.FINAL_VERSION }}b.${{ github.run_number}}"
+            git tag -a ${{ env.FINAL_VERSION }}b.${{ github.run_number}} -m "Creating final release tags"
           fi
           git tag # Show the tagged commits
           git push origin --tags # Push all tags to GitHub.
           echo "::set-output name=changelog::$(git log --oneline --decorate)"
  
-      - name: release_develop
+      - name: release_main
         uses: actions/create-release@v1
-        id: create_release_develop
+        if: ${{ steps.tag_version.outputs.branch == 'main' }} 
+        id: create_release_main
         with:
           draft: false
           prerelease: false
