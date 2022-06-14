@@ -37,6 +37,6 @@ jobs:
           git push origin --tags # Push all tags to GitHub.
           git describe --tags --abbrev=0 
           echo RELEASE_VERSION=$(git describe --tags --abbrev=0) >> $GITHUB_ENV
-          echo ${{GITHUB_ENV}}
+          echo ${{env.*}}
      
       
