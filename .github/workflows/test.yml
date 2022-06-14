@@ -35,7 +35,7 @@ jobs:
           fi
           git tag # Show the tagged commits
           git push origin --tags # Push all tags to GitHub.
-          echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+          echo ::set-output name=VERSION::${{ env.FINAL_VERSION }}b.${{ github.run_number}}
  
       - name: release_develop
         uses: actions/create-release@v1
