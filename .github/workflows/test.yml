@@ -32,8 +32,8 @@ jobs:
           if ${{ env.BRANCH}} == 'main'; then
             git tag -a ${{ env.FINAL_VERSION }} -m "Creating final release tags"
           else
-            echo tag_name=${{ env.FINAL_VERSION }}b.${{ github.run_number }} >> $GITHUB_ENV
-            git tag -a ${{env.tag_name}} -m "Creating final release tagss"
+            echo "TAG_NAME"=${{ env.FINAL_VERSION }}b.${{ github.run_number }} >> $GITHUB_ENV
+            git tag -a ${{env.TAG_NAME}} -m "Creating final release tagss"
            
           fi
           git tag # Show the tagged commits
@@ -45,8 +45,8 @@ jobs:
         with:
           draft: false
           prerelease: false
-          release_name:  ${{env.tag_name}}
-          tag_name: ${{env.tag_name}}
+          release_name:   ${{env.TAG_NAME}}
+          tag_name:  ${{env.TAG_NAME}}
         env:
           GITHUB_TOKEN: ${{ github.token }}
      
