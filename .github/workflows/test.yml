@@ -37,7 +37,7 @@ jobs:
           fi
           git tag # Show the tagged commits
           git push origin --tags # Push all tags to GitHub.
-          echo "::set-output name=tag::git describe --tags --abbrev=0"
+          echo "::set-output name=tag::$(git describe --tags --abbrev=0)"
           echo ${{ steps.tag_main.outputs.tag }}
       - name: release_develop
         uses: actions/create-release@v1
