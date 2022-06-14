@@ -45,7 +45,7 @@ jobs:
         with:
           draft: false
           prerelease: false
-          release_name:  $TAG_NAME
-          tag_name: $TAG_NAME
+          release_name:  ${TAG_NAME}
+          tag_name: ${TAG_NAME}
         env:
           GITHUB_TOKEN: ${{ github.token }}  
