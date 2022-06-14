@@ -1,0 +1,54 @@
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches:
+     - main
+     - develop
+    
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+ build:
+   runs-on: ubuntu-latest
+   steps:
+      - uses: actions/checkout@v3
+      - name: Build and tag 
+        id: tag_version
+        run: |
+           echo FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') >> $GITHUB_ENV
+           echo BRANCH= ${GITHUB_REF#refs/heads/} >> $GITHUB_ENV
+      
+      - name: tag_main
+        id: tag_main
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          git config --global user.email "mamthavathar2000@gmail.com"
+          git config --global user.name "mamthamv"
+          if ${{ env.BRANCH}} == 'main'; then
+            git tag -a ${{ env.FINAL_VERSION }} -m "Creating final release tags"
+            echo "::set-output name=TAG_NAME::v${{ env.FINAL_VERSION }}"
+          else
+            git tag -a ${{ env.FINAL_VERSION }}b.${{ github.run_number}} -m "Creating final release tagss"
+            echo "::set-output name=TAG_NAME::v${{ env.FINAL_VERSION }}b.${{ github.run_number}}"
+          fi
+          git tag # Show the tagged commits
+          git push origin --tags # Push all tags to GitHub.
+          echo "::set-output name=changelog::$(git log --oneline --decorate)"
+ 
+      - name: release_develop
+        uses: actions/create-release@v1
+        id: create_release_develop
+        with:
+          draft: false
+          prerelease: false
+          release_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
+          tag_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
+          body: |
+            Changes in this:
+            ${{ steps.tag_main.outputs.changelog }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}  
