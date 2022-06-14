@@ -33,14 +33,12 @@ jobs:
             git tag -a ${{ env.FINAL_VERSION }} -m "Creating final release tags"
           else
             git tag -a "${{ env.FINAL_VERSION }}b.${{env.BUILD_NO}}" -m "Creating final release tagss"
-            export BUILD_NO=$(($BUILD_NO+1)) && echo $BUILD_NO >> $GITHUB_ENV
+            export BUILD_NO=$(($BUILD_NO+1))
+            echo BUILD_NO=$BUILD_NO >> $GITHUB_ENV
           fi
           git tag # Show the tagged commits
           git push origin --tags # Push all tags to GitHub.
-          git describe --tags --abbrev=0 
-          
-          echo "RELEASE_VERSION= $(git describe --tags --abbrev=0)" >> $GITHUB_ENV
-          echo ${{ env.RELEASE_VERSION }}
+          echo ${{env.BUILD_NO}}
       
      
       
