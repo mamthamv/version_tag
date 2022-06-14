@@ -35,7 +35,7 @@ jobs:
           fi
           git tag # Show the tagged commits
           git push origin --tags # Push all tags to GitHub.
-          echo "RELEASE_VERSION= ${git describe --tags --abbrev=0" } >> $GITHUB_ENV
+          echo RELEASE_VERSION= ${git describe --tags --abbrev=0} >> $GITHUB_ENV
           echo ${{ env.RELEASE_VERSION}}
      
       
