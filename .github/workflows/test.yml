@@ -37,7 +37,7 @@ jobs:
           fi
           git tag # Show the tagged commits
           git push origin --tags # Push all tags to GitHub.
-          echo "::set-output name=changelog::$(git log --oneline --decorate --color)"
+          echo "::set-output name=changelog::$(git log)"
  
       - name: release_develop
         uses: actions/create-release@v1
