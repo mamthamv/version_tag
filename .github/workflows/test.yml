@@ -19,7 +19,7 @@ jobs:
         id: tag_version
         run: |
            echo FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') >> $GITHUB_ENV
-           echo BRANCH= ${GITHUB_REF#refs/heads/} >> $GITHUB_ENV
+           echo BRANCH=${GITHUB_REF#refs/heads/} >> $GITHUB_ENV
       
       - name: tag_main
         id: tag_main
@@ -28,7 +28,7 @@ jobs:
         run: |
           git config --global user.email "mamthavathar2000@gmail.com"
           git config --global user.name "mamthamv"
-          if "${{env.BRANCH}}" == 'main'; then
+          if '${{env.BRANCH}}' == 'main'; then
             git tag -a ${{ env.FINAL_VERSION }} -m "Creating final release tags"
             echo "::set-output name=TAG_NAME::v${{ env.FINAL_VERSION }}"
           else
@@ -40,7 +40,7 @@ jobs:
  
       - name: release_main
         uses: actions/create-release@v1
-        if: ${{ steps.tag_version.outputs.branch == 'main' }} 
+        if: ${{ env.BRANCH == 'main' }} 
         id: create_release_main
         with:
           draft: false
