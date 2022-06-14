@@ -24,3 +24,4 @@ jobs:
         id: create_tag_main
         run: |
           echo  ${{ env.BRANCH}}
+          echo  ${{ env.FINAL_VERSION}}
