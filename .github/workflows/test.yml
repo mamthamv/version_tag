@@ -32,7 +32,7 @@ jobs:
             git tag -a ${{ env.FINAL_VERSION }} -m "Creating final release tags"
             echo "::set-output name=TAG_NAME::v${{ env.FINAL_VERSION }}"
           else
-            git tag -a ${{ env.FINAL_VERSION }}b.${{ github.run_number}} -m "Creating final release tags"
+            git tag -a ${{ env.FINAL_VERSION }}b.${{ github.run_number}} -m "Creating final release tagss"
           fi
           git tag # Show the tagged commits
           git push origin --tags # Push all tags to GitHub.
