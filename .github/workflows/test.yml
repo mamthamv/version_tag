@@ -28,7 +28,7 @@ jobs:
         run: |
           git config --global user.email "mamthavathar2000@gmail.com"
           git config --global user.name "mamthamv"
-          if [[${{ env.BRANCH}} == 'develop']]; then
+          if ${{ env.BRANCH}} == 'develop'; then
             git tag -a ${{ env.FINAL_VERSION }}b -m "Creating final release tags"
           else
             git tag -a ${{ env.FINAL_VERSION }} -m "Creating final release tags"
