@@ -32,7 +32,7 @@ jobs:
           if ${{ env.BRANCH}} == 'main'; then
             git tag -a ${{ env.FINAL_VERSION }} -m "Creating final release tags"
           else
-            git tag -a ${{ env.FINAL_VERSION }}b. ${{env.BUILD_NO}} -m "Creating final release tags"
+            git tag -a ${{ env.FINAL_VERSION }}b.${{env.BUILD_NO}} -m "Creating final release tags"
             echo BUILD_NO= $(($BUILD_NO+1))  >> $GITHUB_ENV
           fi
           git tag # Show the tagged commits
