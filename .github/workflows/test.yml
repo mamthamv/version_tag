@@ -20,7 +20,6 @@ jobs:
         run: |
            echo FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') >> $GITHUB_ENV
            echo BRANCH= ${GITHUB_REF#refs/heads/} >> $GITHUB_ENV
-           echo BUILD_NO=1  >> $GITHUB_ENV
       
       - name: tag_main
         id: create_tag_main
@@ -32,14 +31,12 @@ jobs:
           if ${{ env.BRANCH}} == 'main'; then
             git tag -a ${{ env.FINAL_VERSION }} -m "Creating final release tags"
           else
-            export TAG_NAME=${{ env.FINAL_VERSION }}b.${{ github.run_number}}
-            echo "::set-output name=TAG_NAME::$TAG_NAME"
-            git tag -a $TAG_NAME -m "Creating final release tagss"
+            git tag -a ${{ env.FINAL_VERSION }}b.${{ github.run_number}} -m "Creating final release tagss"
           fi
           git tag # Show the tagged commits
           git push origin --tags # Push all tags to GitHub.
-
-     
+          echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          echo ${{ env.RELEASE_VERSION }}
       - name: release_develop
         uses: actions/create-release@v1
         id: create_release_develop
