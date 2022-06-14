@@ -28,14 +28,13 @@ jobs:
         run: |
           git config --global user.email "mamthavathar2000@gmail.com"
           git config --global user.name "mamthamv"
-          if ${{ env.BRANCH}} == 'develop'; then
-            git tag -a ${{ env.FINAL_VERSION }}b -m "Creating final release tags"
-          else
+          if ${{ env.BRANCH}} == 'main'; then
             git tag -a ${{ env.FINAL_VERSION }} -m "Creating final release tags"
+          else
+            git tag -a ${{ env.FINAL_VERSION }}b -m "Creating final release tags"
           fi
           git tag # Show the tagged commits
           git push origin --tags # Push all tags to GitHub.
-          echo "RELEASE_VERSION= ${{ git describe --tags --abbrev=0" }} >> $GITHUB_ENV
-          echo ${{ RELEASE_VERSION}}
+          
      
       
