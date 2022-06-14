@@ -43,8 +43,8 @@ jobs:
         with:
           draft: false
           prerelease: false
-          release_name: echo $(git describe --tags --abbrev=0 )
-          tag_name: echo $(git describe --tags --abbrev=0 )
+          release_name:  git describe --tags --abbrev=0
+          tag_name:  git describe --tags --abbrev=0
         env:
           GITHUB_TOKEN: ${{ github.token }}
      
