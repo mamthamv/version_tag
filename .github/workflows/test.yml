@@ -31,7 +31,7 @@ jobs:
           if ${{ env.BRANCH}} == 'main'; then
             git tag -a ${{ env.FINAL_VERSION }} -m "Creating final release tags"
           else
-            git tag -a ${{ env.FINAL_VERSION }}b -m "Creating final release tag"
+            git tag -a ${{ env.FINAL_VERSION }}b -m "Creating final release tags"
           fi
           git tag # Show the tagged commits
           git push origin --tags # Push all tags to GitHub.
