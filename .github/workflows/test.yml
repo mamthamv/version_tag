@@ -22,7 +22,7 @@ jobs:
            echo BRANCH= ${GITHUB_REF#refs/heads/} >> $GITHUB_ENV
       
       - name: tag_main
-        if: ${{ env.BRANCH == 'main' }}
+        if: ${{ env.BRANCH == 'develop' }}
         id: create_tag_main
         env:
           GITHUB_TOKEN: ${{ github.token }}
