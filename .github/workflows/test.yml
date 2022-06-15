@@ -50,6 +50,7 @@ jobs:
           body: |
             Changes in this:
             ${{ steps.tag_main.outputs.changelog }}
+            
             For more information:<https://github.com/${{github.repository}}/blob/master/CHANGELOG.md>'
         env:
           GITHUB_TOKEN: ${{ github.token }}  
