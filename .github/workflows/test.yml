@@ -50,7 +50,7 @@ jobs:
           release_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
           tag_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
           body: |
-            ${{ steps.tag_main.outputs.MESSAGE}}
-            ${{ steps.tag_main.outputs.MESSAGES}}
+            export MESSAGE=$(awk  '/^## \['""$FINAL_VERSION""'\]/ {print;flag=1;next} /^## \[[0-9]+\.[0-9]+\.[0-9]+\]/{flag=0} flag {print}' CHANGELOG.MD)
+            $(echo "$MESSAGE" | sed 's/###/** /g' | sed 's/##/'/g)
         env:
           GITHUB_TOKEN: ${{ github.token }}  
