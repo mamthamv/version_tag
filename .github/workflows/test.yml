@@ -20,7 +20,8 @@ jobs:
         run: |
            echo FINAL_VERSION=$(cat setup.py | grep version | awk -F"'" '{ print $2 }') >> $GITHUB_ENV
            echo BRANCH=${GITHUB_REF#refs/heads/} >> $GITHUB_ENV
-      
+           npm install generate-changelog -g 
+           
       - name: tag_main
         id: tag_main
         env:
@@ -37,7 +38,8 @@ jobs:
           git tag # Show the tagged commits
           git push origin --tags # Push all tags to GitHub.
           echo "::set-output name=changelog::$(git log --oneline --decorate)"
- 
+          echo "::set-output name=changelogss::$(changelog generate)"
+          
       - name: release_main
         uses: actions/create-release@v1
         if: ${{ env.BRANCH == 'main' }} 
@@ -50,7 +52,7 @@ jobs:
           body: |
             Changes in this:
             ${{ steps.tag_main.outputs.changelog }}
-
-            <https://github.com/${{github.repository}}/blob/master/CHANGELOG.md>
+            ${{ steps.tag_main.outputs.changelogss }}
+            
         env:
           GITHUB_TOKEN: ${{ github.token }}  
