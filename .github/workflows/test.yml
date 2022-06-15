@@ -53,8 +53,6 @@ jobs:
           release_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
           tag_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
           body: |
-            echo "$MESSAGE" 
-            print $MESSAGE
             ${{ steps.tag_main.outputs.RELEASEBODY }}
         env:
           GITHUB_TOKEN: ${{ github.token }}  
