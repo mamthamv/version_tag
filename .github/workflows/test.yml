@@ -48,6 +48,6 @@ jobs:
           prerelease: false
           release_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
           tag_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
-          body: |ss
+  
         env:
           GITHUB_TOKEN: ${{ github.token }}  
