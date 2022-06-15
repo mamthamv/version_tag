@@ -42,7 +42,8 @@ jobs:
           MESSAGE="${MESSAGE//'%'/'%25'}"
           MESSAGE="${MESSAGE//$'\n'/'%0A'}"
           MESSAGE="${MESSAGE/$'\r'/'%0D'}"
-          echo "::set-output name=content::$MESSAGE"
+          echo "::set-output name=RELEASEBODY::${MESSAGE}"
+          echo "::set-env name=body::${RELEASEBODY}"
       - name: release_main
         uses: actions/create-release@v1
         if: ${{ env.BRANCH == 'main' }} 
@@ -52,6 +53,9 @@ jobs:
           prerelease: false
           release_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
           tag_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
-          body: ${{ steps.tag_main.outputs.MESSAGE }}
+          body: |
+            echo "$MESSAGE" 
+            print $MESSAGE
+            ${{ steps.tag_main.outputs.RELEASEBODY }}
         env:
           GITHUB_TOKEN: ${{ github.token }}  
