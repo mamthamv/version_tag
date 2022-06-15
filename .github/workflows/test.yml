@@ -37,9 +37,8 @@ jobs:
           fi
           git tag # Show the tagged commits
           git push origin --tags # Push all tags to GitHub.
-          export MESSAGE=$(awk  '/^## \['""$FINAL_VERSION""'\]/ {print;flag=1;next} /^## \[[0-9]+\.[0-9]+\.[0-9]+\]/{flag=0} flag {print}' CHANGELOG.MD)
-          echo "::set-output name=MESSAGE::$MESSAGE"
-          echo "::set-output name=MESSAGES::$(echo "$MESSAGE" | sed 's/###/** /g' | sed 's/##/'/g)"
+          echo "::set-output name=MESSAGE::$($(awk  '/^## \['""$FINAL_VERSION""'\]/ {print;flag=1;next} /^## \[[0-9]+\.[0-9]+\.[0-9]+\]/{flag=0} flag {print}' CHANGELOG.MD)|sed 's/###/** /g' | sed 's/##/'/g)"
+         
       - name: release_main
         uses: actions/create-release@v1
         if: ${{ env.BRANCH == 'main' }} 
@@ -50,7 +49,6 @@ jobs:
           release_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
           tag_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
           body: |
-            export MESSAGE=$(awk  '/^## \['""$FINAL_VERSION""'\]/ {print;flag=1;next} /^## \[[0-9]+\.[0-9]+\.[0-9]+\]/{flag=0} flag {print}' CHANGELOG.MD)
-            $(echo "$MESSAGE" | sed 's/###/** /g' | sed 's/##/'/g)
+           ${{ steps.tag_main.outputs.MESSAGE }}
         env:
           GITHUB_TOKEN: ${{ github.token }}  
