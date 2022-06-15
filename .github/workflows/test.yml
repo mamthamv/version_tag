@@ -40,8 +40,7 @@ jobs:
           export MESSAGE=$(awk  '/^## \['""$FINAL_VERSION""'\]/ {print;flag=1;next} /^## \[[0-9]+\.[0-9]+\.[0-9]+\]/{flag=0} flag {print}' CHANGELOG.MD)
           echo $MESSAGE
           export MESSAGE=$(echo "$MESSAGE" | sed 's/###/** /g' | sed 's/##/'/g)
-          echo $MESSAGE
-          echo "::set-output name=changelog::$MESSAGE"
+          
       - name: release_main
         uses: actions/create-release@v1
         if: ${{ env.BRANCH == 'main' }} 
@@ -52,8 +51,7 @@ jobs:
           release_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
           tag_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
           body: |
-            Changes in this:
-            ${{ steps.tag_main.outputs.changelog }}
+            $MESSAGE
             
         env:
           GITHUB_TOKEN: ${{ github.token }}  
