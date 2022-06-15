@@ -37,8 +37,7 @@ jobs:
           fi
           git tag # Show the tagged commits
           git push origin --tags # Push all tags to GitHub.
-          echo "::set-output name=changelog::$(git log --oneline --decorate)"
-          echo "::set-output name=changelogss::$(changelog generate)"
+          echo "::set-output name=changelog::$(git log --pretty=”%s”)"
           
       - name: release_main
         uses: actions/create-release@v1
@@ -52,7 +51,6 @@ jobs:
           body: |
             Changes in this:
             ${{ steps.tag_main.outputs.changelog }}
-            ${{ steps.tag_main.outputs.changelogss }}
             
         env:
           GITHUB_TOKEN: ${{ github.token }}  
