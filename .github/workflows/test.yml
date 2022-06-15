@@ -43,7 +43,6 @@ jobs:
           MESSAGE="${MESSAGE//$'\n'/'%0A'}"
           MESSAGE="${MESSAGE/$'\r'/'%0D'}"
           echo "::set-output name=RELEASEBODY::${MESSAGE}"
-          echo "::set-env name=body::${RELEASEBODY}"
       - name: release_main
         uses: actions/create-release@v1
         if: ${{ env.BRANCH == 'main' }} 
