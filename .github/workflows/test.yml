@@ -39,6 +39,10 @@ jobs:
           git push origin --tags # Push all tags to GitHub.
           MESSAGE=$(awk  '/^## \['""$FINAL_VERSION""'\]/ {print;flag=1;next} /^## \[[0-9]+\.[0-9]+\.[0-9]+\]/{flag=0} flag {print}' CHANGELOG.MD)
           echo "$MESSAGE" 
+          MESSAGE="${MESSAGE//'%'/'%25'}"
+          MESSAGE="${MESSAGE//$'\n'/'%0A'}"
+          MESSAGE="${MESSAGE/$'\r'/'%0D'}"
+          echo "::set-output name=content::$MESSAGE"
       - name: release_main
         uses: actions/create-release@v1
         if: ${{ env.BRANCH == 'main' }} 
@@ -48,6 +52,6 @@ jobs:
           prerelease: false
           release_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
           tag_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
-  
+          body: ${{ steps.tag_main.outputs.MESSAGE }}
         env:
           GITHUB_TOKEN: ${{ github.token }}  
