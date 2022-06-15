@@ -51,7 +51,7 @@ jobs:
           release_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
           tag_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
           body: |
-            ${{ steps.tag_main.outputs.$MESSAGE}}
+            ${{ steps.tag_main.outputs.MESSAGE}}
             
         env:
           GITHUB_TOKEN: ${{ github.token }}  
