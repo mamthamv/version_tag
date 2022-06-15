@@ -37,7 +37,7 @@ jobs:
           fi
           git tag # Show the tagged commits
           git push origin --tags # Push all tags to GitHub.
-          MESSAGE=$(awk  '/^## \['""$FINAL_VERSION""'\]/ {print;flag=1;next} /^## \[[0-9]+\.[0-9]+\.[0-9]+\]/{flag=0} flag {print}' CHANGELOG.md)
+          MESSAGE=$(awk  '/^## \['""$FINAL_VERSION""'\]/ {print;flag=1;next} /^## \[[0-9]+\.[0-9]+\.[0-9]+\]/{flag=0} flag {print}' CHANGELOG.MD)
           echo "::set-output name=MESSAGE::$(echo "$MESSAGE" | sed 's/###/** /g' | sed 's/##/'/g)"
          
       - name: release_main
