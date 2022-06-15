@@ -16,7 +16,7 @@ except ImportError:
 
 setup(
     name='tr-awsbackup-infra',
-    version='1.4.0',
+    version='1.5.0',
     description='Tool to manage AWS Backups', 
     long_description_content_type="text/markdown",
     author='Nuvola',
