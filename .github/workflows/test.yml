@@ -30,16 +30,15 @@ jobs:
           git config --global user.email "mamthavathar2000@gmail.com"
           git config --global user.name "mamthamv"
           if ${{ env.BRANCH == 'main' }}; then
-            git tag -a ${{ env.FINAL_VERSION }} -m "Creating final release tags"
+            git tag -a v${{ env.FINAL_VERSION }} -m "Creating final release tags"
             echo "::set-output name=TAG_NAME::v${{ env.FINAL_VERSION }}"
           else
-            git tag -a ${{ env.FINAL_VERSION }}b.${{ github.run_number}} -m "Creating final release tagSs"
+            git tag -a v${{ env.FINAL_VERSION }}b.${{ github.run_number}} -m "Creating final release tagSs"
           fi
           git tag # Show the tagged commits
           git push origin --tags # Push all tags to GitHub.
           MESSAGE=$(awk  '/^## \['""$FINAL_VERSION""'\]/ {print;flag=1;next} /^## \[[0-9]+\.[0-9]+\.[0-9]+\]/{flag=0} flag {print}' CHANGELOG.MD)
-          echo "$MESSAGE" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          echo "$MESSAGE" 
       - name: release_main
         uses: actions/create-release@v1
         if: ${{ env.BRANCH == 'main' }} 
@@ -49,6 +48,6 @@ jobs:
           prerelease: false
           release_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
           tag_name:  ${{ steps.tag_main.outputs.TAG_NAME }}
-          body: ${{ env.MESSAGE }}
+          body: |ss
         env:
           GITHUB_TOKEN: ${{ github.token }}  
